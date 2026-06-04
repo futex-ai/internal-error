@@ -10,8 +10,7 @@ Build this repository as the standalone home for the `internal-error` and
 
 The current workspace only has `AGENTS.md`, a root `README.md`, and the Git
 remote `git@github.com:futex-ai/internal-error.git`, so the implementation
-should create a complete Rust workspace, local verification tooling, PR CI, and
-release-plz automation.
+should create a complete Rust workspace, local verification tooling, and PR CI.
 
 ## Source Comparison
 
@@ -41,14 +40,15 @@ Recommended defaults unless the user chooses otherwise:
 - Use a minimal standalone CI workflow instead of copying either monorepo CI
   workflow verbatim.
 - Start at version `0.1.0`.
-- Configure release-plz for GitHub releases and version PRs only for now.
+- Do not configure release automation for now; consumers should link to a
+  commit or branch.
 - Use Stable Rust in CI.
 
 ## Decisions
 
 1. Release destination:
-   GitHub-only release-plz versions, tags, changelogs, and release PRs. Do not
-   enable crates.io publishing yet.
+   No release automation for now. Consumers should link to a commit or branch.
+   Do not enable crates.io publishing yet.
 
 2. Initial crate version:
    Use `0.1.0`, treating this as a new standalone repo.
@@ -106,19 +106,15 @@ without inheriting unrelated monorepo dependencies.
 - [x] Run `cargo xtask check`.
 - [x] Confirm `.github/actionlint.yaml` is not needed for the current workflow.
 
-## Milestone 4: Release Automation
+## Milestone 4: Version Reference Policy
 
-Configure release-plz for new crate versions in the standalone repo.
+Document the current version reference policy without adding release
+automation.
 
-- [x] Add `release-plz.toml` for the selected release destination.
-- [x] Add `.github/workflows/release.yml` with release-plz release and
-  release-pr jobs.
-- [x] Configure changelog behavior for the two crate packages.
-- [x] Confirm tags and release names are repo appropriate, for example
-  `v{{ version }}`.
-- [x] Document required GitHub permissions and secrets in the root README.
-- [x] Run the release-plz command locally in dry-run or preview mode if
-  supported.
+- [x] Do not add a release-plz workflow.
+- [x] Do not add release-plz configuration.
+- [x] Document that consumers should link to a commit or branch.
+- [x] Document that PR CI only needs `contents: read`.
 
 ## Milestone 5: Final Verification
 

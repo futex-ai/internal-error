@@ -8,7 +8,8 @@ Standalone workspace for the shared Rust internal error crates.
 - `internal-error-derive` provides the `ErrorContract` proc macro that binds a
   crate-local `Error` enum to the shared internal-failure contract.
 - `cargo xtask check` is the local equivalent of PR CI.
-- Release-plz manages GitHub-only version PRs, tags, changelogs, and releases.
+- Consumers can reference a Git commit or branch until a registry release path
+  is needed.
 
 ## Developer Get Started
 
@@ -34,19 +35,12 @@ cargo xtask review
 - `crates/internal-error-derive` contains the `ErrorContract` derive macro.
 - `xtask` contains local automation used by PR CI.
 
-## Release Automation
+## Version References
 
-Release-plz is configured for GitHub-only releases for now. Do not enable
-crates.io publishing until package ownership and token policy are confirmed.
+This repository does not currently run release automation. Link consumers to a
+specific commit or branch until a registry release path is needed.
 
-Required GitHub workflow permissions:
-
-- release workflow: `contents: write` for tags/releases and
-  `pull-requests: write` for release PRs
-- CI workflow: `contents: read`
-
-No release secret is required for the current GitHub-only setup beyond the
-standard `GITHUB_TOKEN` provided by GitHub Actions.
+The PR CI workflow only needs `contents: read`.
 
 ## Plans
 
