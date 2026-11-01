@@ -143,4 +143,3 @@ or service crates.
 
 - [`../../docs/protocol/error-contracts.md`](../../docs/protocol/error-contracts.md)
 - [`../../AGENTS.md`](../../AGENTS.md)
-- [`../../plans/internal-error-standalone-repo.md`](../../plans/internal-error-standalone-repo.md)

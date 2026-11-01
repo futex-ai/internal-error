@@ -90,4 +90,3 @@ cargo xtask check
 
 - [`../internal-error/README.md`](../internal-error/README.md)
 - [`../../docs/protocol/error-contracts.md`](../../docs/protocol/error-contracts.md)
-- [`../../plans/internal-error-standalone-repo.md`](../../plans/internal-error-standalone-repo.md)

@@ -42,11 +42,6 @@ specific commit or branch until a registry release path is needed.
 
 The PR CI workflow only needs `contents: read`.
 
-## Plans
-
-Implementation planning lives in [plans/README.md](plans/README.md).
-
 ## Related Docs
 
 - [Error Contracts](docs/protocol/error-contracts.md)
-- [Plans](plans/README.md)
