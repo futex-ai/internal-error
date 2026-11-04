@@ -18,15 +18,13 @@ cargo test -p internal-error -p internal-error-derive
 cargo xtask check
 ```
 
-Run the full verification before completing implementation work:
+`cargo xtask check` runs the complete verification, as PR CI does. It runs
+the Markdown and workflow checks, the Rust audits, the format check, Clippy,
+and the workspace tests. The Commands section of
+[`AGENTS.md`](AGENTS.md#commands) lists the other commands.
 
-```sh
-cargo fmt --all -- --check
-cargo clippy --workspace --all-targets --all-features -- -D warnings
-cargo test --workspace
-cargo xtask check
-cargo xtask review
-```
+`cargo xtask review` runs an optional, read-only AI review of the local diff
+against `origin/main`. It needs the `codex` CLI.
 
 ## Key Code
 
