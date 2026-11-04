@@ -77,9 +77,10 @@ skill at that moment instead of guessing the rule.
 - `cargo xtask rust-file-length-lint` caps each Rust file under `crates/` and
   `xtask/` at 300 lines, with no override. Without `--all`, it checks
   untracked Rust files and the Rust files that the commits of the branch add
-  or change. The commits of the branch are the commits after its merge base
-  with `origin/main`. It does not see uncommitted edits to tracked files, or
-  new files that are staged but not committed. `--all` checks every Rust
+  or change, and it reads each of them from the working tree. The commits of
+  the branch are the commits after its merge base with `origin/main`. So it
+  misses an uncommitted edit to a file that no commit of the branch changed,
+  and a new file that is staged but not committed. `--all` checks every Rust
   file under those directories. The `rust-audit` phase of the gate runs the
   form without `--all`.
 - The `rust-audit` phase also fails on a Rust file under a crate's `src/`

@@ -25,17 +25,24 @@
     the untracked files from `git ls-files --others --exclude-standard`.
   - `git diff origin/main...` compares the merge base with `HEAD`. So it
     lists only committed changes.
-  - A test in a scratch repository on 2026-11-04 showed the gap. The current
-    form listed neither a modified tracked file nor a staged new file. This
-    form listed both:
+  - The lint then reads each listed file from the working tree. So it does
+    check an uncommitted edit to a file that a commit of the branch changed.
+    A scratch clone on 2026-11-04 showed this: after a branch commit changed
+    `crates/internal-error/src/context_frame.rs`, an uncommitted edit of that
+    file to 301 lines failed the lint. In the same clone, a 316-line edit to
+    a tracked file that no commit of the branch changed passed the lint.
+  - A test in a scratch repository on 2026-11-04 showed the gap. The tracked
+    file had no commit on the branch. The current form listed neither the
+    modified tracked file nor a staged new file. This form listed both:
     `git diff --name-only --diff-filter=ACMRT --merge-base origin/main --`.
   - Git 2.30 added the `--merge-base` option.
   - CI checks out a clean commit, so CI still catches such a file after the
     push.
   - The file-length line in `AGENTS.md` documents the gap.
 - **Problem:** An uncommitted edit that takes a tracked Rust file past 300
-  lines passes the local lint. A new Rust file that is staged but not
-  committed also passes, because it is no longer untracked.
+  lines passes the local lint when no commit of the branch changed that
+  file. A new Rust file that is staged but not committed also passes,
+  because it is no longer untracked.
 - **Impact if no action:** The local early check passes, and CI then fails
   after the push.
 - **Root question:** Which files does the local file-length lint check?
