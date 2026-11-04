@@ -49,6 +49,10 @@
     - In the second copy, the compile-time value still named the first copy.
     - `cargo run` keeps the current directory of the caller.
     - A binary that runs without cargo has no run-time `CARGO_MANIFEST_DIR`.
+  - On the same day, xtask ran from a folder outside any copy, with the
+    binary of a scratch clone that had its own target directory. It passed
+    `rust-file-length-lint --all` and `check --include rust-audit`, because
+    the audits read only the root.
   - CI is not affected, for two reasons:
     - `.github/workflows/ci.yml` checks out the repository with
       `actions/checkout@v4` and no `path`. The GitHub docs say that
@@ -74,13 +78,22 @@
   - **B.** Find the root from the current directory: the nearest folder,
     upward, whose `Cargo.toml` has a `[workspace]` table. This works for
     every way to start xtask inside a copy. Outside a copy, xtask then stops
-    with an error. Effort: Small.
+    with an error. That error is a new rejection of runs that work today, so
+    B needs the user. Effort: Small.
   - **C.** Document that two copies must not share a target directory, and
     change nothing. Effort: Small.
+  - **D.** Search upward from the current directory for the nearest folder
+    that holds `xtask/Cargo.toml`. When no such folder exists, use the
+    run-time `CARGO_MANIFEST_DIR`, and then the compile-time path. D adds no
+    error, so every run that works today keeps working. Because D accepts
+    only a folder with `xtask/Cargo.toml`, a direct run inside another Cargo
+    workspace without that file keeps today's root. A binary that another
+    copy built, and that runs without cargo outside any copy, still checks
+    that other copy. Effort: Small.
 - **Left out:** A build script that makes cargo compile xtask again for each
-  copy. B is better on every point: it needs no new build, and it also works
-  for a binary that runs without cargo.
-- **Wider fix:** B. Together with the fix of
+  copy. D is better on every point. It needs no new build, and it also
+  serves a binary that runs without cargo inside a copy.
+- **Wider fix:** D. Together with the fix of
   `plans/follow-ups/markdown-check-lints-wrong-files-from-subfolder.md`, one
   root found at run time then serves every command.
 - **Previous examples:** None found.
@@ -92,7 +105,8 @@
     Shared wider fix: one root found at run time, and every command runs in
     it. Its fix moves every command into the root, so it waits for this fix
     or lands with it.
-- **Recommendation:** B. It removes the compile-time root, so no way to start
-  xtask inside a copy can name another copy.
-- **Action:** fix after merge, apply B, because the fix makes the gate check
-  the copy where it runs, and it touches only xtask.
+- **Recommendation:** D. It fixes every run inside a copy and every run
+  through cargo, and it stops no run that works today. B is the strict form
+  that the user can choose: it stops each run outside a copy with an error.
+- **Action:** fix after merge, apply D, because the gate then checks the copy
+  where it runs, each working run keeps working, and only xtask changes.

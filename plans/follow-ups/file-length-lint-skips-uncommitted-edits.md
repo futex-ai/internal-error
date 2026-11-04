@@ -67,9 +67,13 @@
 - **Previous examples:** `futex-ai/ai` recorded
   `plans/follow-ups/file-length-lint-all-flag.md`, for a file-length lint
   that ignored its `--all` flag.
-- **Related:** `plans/follow-ups/whitespace-check-sees-only-unstaged-edits.md`.
-  Shared wider fix: the whitespace check also decides which changes of the
-  branch it sees, and the same helper can define them for both checks.
+- **Related:**
+  - `plans/follow-ups/whitespace-check-sees-only-unstaged-edits.md`. Shared
+    wider fix: the whitespace check also decides which changes of the
+    branch it sees, and the same helper can define them for both checks.
+  - `plans/follow-ups/xtask-git-errors-name-wrong-cause.md`. Same code: both
+    items change the Git calls of `changed_rust_files`, so one branch can
+    fix both.
 - **Recommendation:** A. The local lint then checks the files that the
   developer changed.
 - **Action:** ask the user, because option A makes the local lint fail on
